@@ -1,42 +1,32 @@
-import { WINDOW_WIDTH, WINDOW_HEIGHT } from "./constants";
 import { FramerateCounter } from "./FramerateCounter";
 
-let offset = 0;
-
-const recalculate = (buffer: Uint8ClampedArray) => {
-  offset += 10;
-
-  for (let i = 0; i < buffer.length; i++) {
-    const r = i % 255;
-    const g = (i + offset) % 255;
-    const b = i % 255;
-    const a = i % 255;
-
-    buffer[i * 4 + 0] = r;
-    buffer[i * 4 + 1] = g;
-    buffer[i * 4 + 2] = b;
-    buffer[i * 4 + 3] = a;
-  }
-};
-
-export class Renderer extends FramerateCounter {
-  private width: number;
-  private height: number;
-
+export abstract class BaseRenderEngine extends FramerateCounter {
   private ctx: CanvasRenderingContext2D;
 
   private raf: number | undefined;
 
-  private buffer: Uint8ClampedArray;
+  protected width: number;
+  protected height: number;
 
-  constructor(canvas: HTMLCanvasElement, controlButton: HTMLButtonElement) {
-    super();
+  protected buffer: Uint8ClampedArray;
 
-    this.height = 360;
+  /** Main entry point to renderer - implement this in children classes, by
+   * modifying buffer property.
+   */
+  abstract loop(): void;
+
+  constructor(
+    canvas: HTMLCanvasElement,
+    controlButton?: HTMLButtonElement,
+    logFramerate?: boolean
+  ) {
+    super(logFramerate);
+
+    this.height = 640;
     this.width = 640;
 
-    canvas.width = WINDOW_WIDTH;
-    canvas.height = WINDOW_HEIGHT;
+    canvas.width = this.width;
+    canvas.height = this.height;
 
     const ctx = canvas.getContext("2d");
 
@@ -48,24 +38,28 @@ export class Renderer extends FramerateCounter {
 
     this.buffer = new Uint8ClampedArray(this.width * this.height * 4);
 
-    this.registerControlButton(controlButton);
+    if (controlButton) {
+      this.registerControlButton(controlButton);
+    }
   }
 
   public start() {
-    this.loop();
+    this.loopWrapper();
   }
 
-  private loop() {
+  private loopWrapper() {
     this.incrementFrames();
 
-    recalculate(this.buffer);
+    this.loop();
 
     this.draw();
 
-    this.raf = requestAnimationFrame(() => this.loop());
+    this.raf = requestAnimationFrame(() => this.loopWrapper());
   }
 
   private draw() {
+    this.ctx.clearRect(0, 0, this.width, this.height);
+
     const imageData = new ImageData(this.buffer, this.width, this.height);
 
     this.ctx.putImageData(imageData, 0, 0);
@@ -81,7 +75,7 @@ export class Renderer extends FramerateCounter {
 
         button.innerHTML = "start";
       } else {
-        this.loop();
+        this.start();
 
         button.innerHTML = "pause";
       }

@@ -1,7 +1,8 @@
 import "./style.css";
-import typescriptLogo from "./typescript.svg";
+import typescriptLogo from "/typescript.svg";
 import viteLogo from "/vite.svg";
-import { Renderer } from "./Renderer";
+import { TestGame } from "./classes/TestRenderer";
+import { Game } from "./classes/Game";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
@@ -23,9 +24,9 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   </div>
 `;
 
-const renderer = new Renderer(
+const game = new Game(
   document.querySelector<HTMLCanvasElement>("canvas")!,
   document.querySelector<HTMLButtonElement>("button#control")!
 );
 
-renderer.start();
+game.start();
