@@ -56,6 +56,8 @@ export class Camera extends Controller {
       const row = y * width * 4;
       const pos = row + x * 4;
 
+      if (y >= height || x >= width || x < 0 || y < 0) return;
+
       buffer[pos + 0] = 255;
       buffer[pos + 3] = 255;
     };

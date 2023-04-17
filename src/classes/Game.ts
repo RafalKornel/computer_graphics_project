@@ -41,7 +41,7 @@ export class Game extends BaseRenderEngine {
 
   loop() {
     this.scene.objects[0].rotateX(Math.PI / 4 / 100);
-    // this.camera.move([0.01, 0.005, 0.005]);
+    this.camera.move([0.01, 0.005, 0.005]);
 
     this.camera.renderScene(this.buffer, {
       scene: this.scene,
