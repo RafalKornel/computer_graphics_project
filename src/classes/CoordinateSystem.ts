@@ -1,6 +1,6 @@
 import { Vec3 } from "../types";
 import { Matrix } from "./Matrix";
-import { normalise } from "./normalise";
+import { normalise } from "./vector";
 
 export class CoordinateSystem {
   private _x: Vec3;

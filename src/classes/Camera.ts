@@ -1,5 +1,5 @@
 import { Vec2, Vec3 } from "../types";
-import { Controller } from "./Controller";
+import { ControlledEntity } from "./ControlledEntity";
 import { EntityParams } from "./Entity";
 import { Scene } from "./Scene";
 
@@ -12,7 +12,7 @@ type CameraParams = {
   coneUpperDist?: number;
 } & Pick<EntityParams, "position" | "localCoordinateSystem">;
 
-export class Camera extends Controller {
+export class Camera extends ControlledEntity {
   private _buffer: Uint8ClampedArray;
 
   private _width: number;

@@ -3,7 +3,7 @@ import { Entity } from "./Entity";
 import { Mesh } from "./Mesh";
 
 export class Scene {
-  objects: Entity[];
+  public objects: Entity[];
   readonly coordinateSystem: CoordinateSystem;
 
   constructor() {

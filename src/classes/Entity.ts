@@ -68,7 +68,7 @@ export class Entity {
     this.recalculateToWorldTransformMatrix();
   }
 
-  public rotateX(angle: number) {
+  public rotateY(angle: number) {
     const y_matrix = new Matrix([
       [Math.cos(angle), 0, Math.sin(angle)],
       [0, 1, 0],
@@ -80,14 +80,17 @@ export class Entity {
     );
 
     this.recalculateToWorldTransformMatrix();
-    this.recalculateToWorldTransformMatrix();
+    this.recalculateToLocalTransformMatrix();
   }
 
   private calculateToLocalTransformMatrix() {
+    const x = this.localCoordinateSystem.x;
+    const y = this.localCoordinateSystem.y;
+    const z = this.localCoordinateSystem.z;
     const m1 = new Matrix([
-      [...this.localCoordinateSystem.x, 0],
-      [...this.localCoordinateSystem.y, 0],
-      [...this.localCoordinateSystem.z, 0],
+      [-x[0], -x[1], -x[2], 0],
+      [-y[0], -y[1], -y[2], 0],
+      [-z[0], -z[1], -z[2], 0],
       [0, 0, 0, 1],
     ]);
 

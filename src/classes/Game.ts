@@ -4,15 +4,18 @@ import { CoordinateSystem } from "./CoordinateSystem";
 import { Cube } from "./Cube";
 import { Scene } from "./Scene";
 
-// const DEG_45 = -Math.PI / 4;
+const DEG_45 = Math.PI / 4;
 
-// const COORDINATE_SYSTEM_ROTATET_BY_45_DEG = new CoordinateSystem(
-//   [Math.cos(DEG_45), 0, Math.sin(DEG_45)],
-//   [0, 1, 0],
-//   [-Math.sin(DEG_45), 0, Math.cos(DEG_45)]
-// );
+const COORDINATE_SYSTEMS = {
+  cartesian: new CoordinateSystem([1, 0, 0], [0, 1, 0], [0, 0, 1]),
+  rotated: new CoordinateSystem(
+    [Math.cos(DEG_45), 0, Math.sin(DEG_45)],
+    [0, 1, 0],
+    [-Math.sin(DEG_45), 0, Math.cos(DEG_45)]
+  ),
+};
 
-const CARTESIAN = new CoordinateSystem([1, 0, 0], [0, 1, 0], [0, 0, 1]);
+const ROTATE_CUBES = false;
 
 export class Game extends BaseRenderEngine {
   private _scene: Scene;
@@ -26,8 +29,8 @@ export class Game extends BaseRenderEngine {
     });
 
     const cubes = [
-      new Cube({ dimenstion: 1, position: [1, 0, -2] }),
-      new Cube({ dimenstion: 2, position: [-2, 0, -3] }),
+      new Cube({ dimension: 1, position: [1, 0, 2] }),
+      new Cube({ dimension: 2, position: [-2, 0, 3] }),
     ];
 
     const scene = new Scene();
@@ -42,15 +45,16 @@ export class Game extends BaseRenderEngine {
       height: this.height,
       focalDistance: 1,
       position: [0, 0, 0],
-      localCoordinateSystem: CARTESIAN,
+      localCoordinateSystem: COORDINATE_SYSTEMS.cartesian,
     });
   }
 
   loop() {
-    this._scene.objects.forEach((object) => {
-      object.rotateX(Math.PI / 4 / 100);
-    });
-    // this._camera.move([0.01, 0.005, 0.005]);
+    if (ROTATE_CUBES) {
+      this._scene.objects.forEach((object) => {
+        object.rotateY(DEG_45 / 100);
+      });
+    }
 
     this._camera.renderScene(this._scene);
   }

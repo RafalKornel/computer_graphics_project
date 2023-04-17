@@ -3,20 +3,20 @@ import { Entity } from "./Entity";
 import { Mesh } from "./Mesh";
 
 type CubeParams = {
-  dimenstion: number;
+  dimension: number;
   position?: Vec3;
 };
 
 export class Cube extends Entity {
-  constructor({ dimenstion, position = [0, 0, 0] }: CubeParams) {
-    const x_min = -dimenstion / 2;
-    const x_plus = +dimenstion / 2;
+  constructor({ dimension, position = [0, 0, 0] }: CubeParams) {
+    const x_min = -dimension / 2;
+    const x_plus = +dimension / 2;
 
-    const y_min = -dimenstion / 2;
-    const y_plus = +dimenstion / 2;
+    const y_min = -dimension / 2;
+    const y_plus = +dimension / 2;
 
-    const z_min = -dimenstion / 2;
-    const z_plus = +dimenstion / 2;
+    const z_min = -dimension / 2;
+    const z_plus = +dimension / 2;
 
     const vertices: Vec3[] = [
       [x_min, y_min, z_min],
