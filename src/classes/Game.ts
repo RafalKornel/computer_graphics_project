@@ -17,15 +17,21 @@ const COORDINATE_SYSTEMS = {
 
 const ROTATE_CUBES = false;
 
+type GameParams = {
+  canvas: HTMLCanvasElement;
+  controlButton?: HTMLButtonElement;
+  sliderInput?: HTMLInputElement;
+};
+
 export class Game extends BaseRenderEngine {
   private _scene: Scene;
   private _camera: Camera;
 
-  constructor(canvas: HTMLCanvasElement, controlButton?: HTMLButtonElement) {
+  constructor({ canvas, controlButton, sliderInput }: GameParams) {
     super(canvas, controlButton, {
-      height: 640,
-      width: 640,
-      logFramerate: false,
+      height: 800,
+      width: 800,
+      logFramerate: true,
     });
 
     const cubes = [
@@ -47,6 +53,10 @@ export class Game extends BaseRenderEngine {
       position: [0, 0, 0],
       localCoordinateSystem: COORDINATE_SYSTEMS.cartesian,
     });
+
+    if (sliderInput) {
+      this.registerSliderInput(sliderInput);
+    }
   }
 
   loop() {
@@ -57,5 +67,13 @@ export class Game extends BaseRenderEngine {
     }
 
     this._camera.renderScene(this._scene);
+  }
+
+  private registerSliderInput(sliderInput: HTMLInputElement) {
+    sliderInput.addEventListener("input", (e: any) => {
+      const value = Number(e.target.value);
+
+      this._camera.changeFocalDistance(value);
+    });
   }
 }

@@ -90,6 +90,10 @@ export class Camera extends ControlledEntity {
     });
   }
 
+  public changeFocalDistance(d: number) {
+    this._focalDistance = d;
+  }
+
   private transformCameraToPlaneCoors([x, y, z]: Vec3): Vec2 {
     const x_plane = (x * this._focalDistance) / (z + this._focalDistance);
     const y_plane = (y * this._focalDistance) / (z + this._focalDistance);
