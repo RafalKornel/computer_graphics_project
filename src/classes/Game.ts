@@ -4,35 +4,42 @@ import { CoordinateSystem } from "./CoordinateSystem";
 import { Cube } from "./Cube";
 import { Scene } from "./Scene";
 
-const DEG_45 = -Math.PI / 4;
+// const DEG_45 = -Math.PI / 4;
 
-const COORDINATE_SYSTEM_ROTATET_BY_45_DEG = new CoordinateSystem(
-  [Math.cos(DEG_45), 0, Math.sin(DEG_45)],
-  [0, 1, 0],
-  [-Math.sin(DEG_45), 0, Math.cos(DEG_45)]
-);
+// const COORDINATE_SYSTEM_ROTATET_BY_45_DEG = new CoordinateSystem(
+//   [Math.cos(DEG_45), 0, Math.sin(DEG_45)],
+//   [0, 1, 0],
+//   [-Math.sin(DEG_45), 0, Math.cos(DEG_45)]
+// );
 
 const CARTESIAN = new CoordinateSystem([1, 0, 0], [0, 1, 0], [0, 0, 1]);
 
 export class Game extends BaseRenderEngine {
-  private scene: Scene;
-  private camera: Camera;
+  private _scene: Scene;
+  private _camera: Camera;
 
   constructor(canvas: HTMLCanvasElement, controlButton?: HTMLButtonElement) {
-    super(canvas, controlButton);
+    super(canvas, controlButton, {
+      height: 640,
+      width: 640,
+      logFramerate: false,
+    });
 
-    const cube = new Cube({ dimenstion: 1, position: [0, 0, -1] });
-
-    console.log({ cube });
+    const cubes = [
+      new Cube({ dimenstion: 1, position: [1, 0, -2] }),
+      new Cube({ dimenstion: 2, position: [-2, 0, -3] }),
+    ];
 
     const scene = new Scene();
 
-    scene.addObject(cube);
+    scene.addObjects(cubes);
 
-    this.scene = scene;
+    this._scene = scene;
 
-    this.camera = new Camera({
-      aspectRatio: 1,
+    this._camera = new Camera({
+      buffer: this.buffer,
+      width: this.width,
+      height: this.height,
       focalDistance: 1,
       position: [0, 0, 0],
       localCoordinateSystem: CARTESIAN,
@@ -40,13 +47,11 @@ export class Game extends BaseRenderEngine {
   }
 
   loop() {
-    this.scene.objects[0].rotateX(Math.PI / 4 / 100);
-    this.camera.move([0.01, 0.005, 0.005]);
-
-    this.camera.renderScene(this.buffer, {
-      scene: this.scene,
-      height: this.height,
-      width: this.width,
+    this._scene.objects.forEach((object) => {
+      object.rotateX(Math.PI / 4 / 100);
     });
+    // this._camera.move([0.01, 0.005, 0.005]);
+
+    this._camera.renderScene(this._scene);
   }
 }

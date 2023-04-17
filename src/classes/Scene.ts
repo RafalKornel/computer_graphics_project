@@ -20,6 +20,10 @@ export class Scene {
     this.objects.push(object);
   }
 
+  public addObjects(objects: Entity[]) {
+    objects.forEach((object) => this.addObject(object));
+  }
+
   public transformMeshVerciesToWorldCoords(obj: Entity) {
     if (!obj.mesh) return undefined;
 

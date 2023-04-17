@@ -1,7 +1,6 @@
 import "./style.css";
 import typescriptLogo from "/typescript.svg";
 import viteLogo from "/vite.svg";
-import { TestGame } from "./classes/TestRenderer";
 import { Game } from "./classes/Game";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `

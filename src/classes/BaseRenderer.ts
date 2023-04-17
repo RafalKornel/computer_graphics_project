@@ -1,6 +1,12 @@
 import { FramerateCounter } from "./FramerateCounter";
 
-export abstract class BaseRenderEngine extends FramerateCounter {
+type BaseRendererParams = {
+  logFramerate?: boolean;
+  width?: number;
+  height?: number;
+};
+
+export abstract class BaseRenderEngine {
   private ctx: CanvasRenderingContext2D;
 
   private raf: number | undefined;
@@ -10,6 +16,8 @@ export abstract class BaseRenderEngine extends FramerateCounter {
 
   protected buffer: Uint8ClampedArray;
 
+  private framerateCounter?: FramerateCounter;
+
   /** Main entry point to renderer - implement this in children classes, by
    * modifying buffer property.
    */
@@ -18,12 +26,16 @@ export abstract class BaseRenderEngine extends FramerateCounter {
   constructor(
     canvas: HTMLCanvasElement,
     controlButton?: HTMLButtonElement,
-    logFramerate?: boolean
+    options: BaseRendererParams = {}
   ) {
-    super(logFramerate);
+    const { height = 640, width = 640, logFramerate = false } = options;
 
-    this.height = 640;
-    this.width = 640;
+    if (logFramerate) {
+      this.framerateCounter = new FramerateCounter();
+    }
+
+    this.height = height;
+    this.width = width;
 
     canvas.width = this.width;
     canvas.height = this.height;
@@ -48,7 +60,7 @@ export abstract class BaseRenderEngine extends FramerateCounter {
   }
 
   private loopWrapper() {
-    this.incrementFrames();
+    this.framerateCounter?.incrementFrames();
 
     this.loop();
 

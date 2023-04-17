@@ -1,21 +1,18 @@
 // TODO: refactor counting framerate method
 export class FramerateCounter {
   private framesCount: number;
-  private _logFramerate: boolean;
 
   private startTime: number;
 
-  constructor(logFramerate: boolean = false) {
+  constructor() {
     this.framesCount = 0;
-
-    this._logFramerate = logFramerate;
 
     this.startTime = performance.now();
 
     this.measureFramerate();
   }
 
-  protected incrementFrames() {
+  public incrementFrames() {
     this.framesCount += 1;
   }
 
@@ -27,7 +24,7 @@ export class FramerateCounter {
     return dt;
   }
 
-  protected get framerate() {
+  public get framerate() {
     const framerate = (this.framesCount / this.dt) * 1000;
 
     return framerate;
@@ -44,8 +41,6 @@ export class FramerateCounter {
   }
 
   private measureFramerate() {
-    if (!this._logFramerate) return;
-
     setInterval(() => this.logFramerate(), 1000);
   }
 }
