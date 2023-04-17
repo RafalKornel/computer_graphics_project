@@ -6,14 +6,7 @@ import { Scene } from "./Scene";
 
 const DEG_45 = Math.PI / 4;
 
-const COORDINATE_SYSTEMS = {
-  cartesian: new CoordinateSystem([1, 0, 0], [0, 1, 0], [0, 0, 1]),
-  rotated: new CoordinateSystem(
-    [Math.cos(DEG_45), 0, Math.sin(DEG_45)],
-    [0, 1, 0],
-    [-Math.sin(DEG_45), 0, Math.cos(DEG_45)]
-  ),
-};
+const CARTESIAN = new CoordinateSystem([1, 0, 0], [0, 1, 0], [0, 0, 1]);
 
 const ROTATE_CUBES = false;
 
@@ -35,7 +28,8 @@ export class Game extends BaseRenderEngine {
     });
 
     const cubes = [
-      new Cube({ dimension: 1, position: [1, 0, 2] }),
+      new Cube({ dimension: 1, position: [2, 0.5, 2] }),
+      new Cube({ dimension: 1, position: [2, 0.5, 4] }),
       new Cube({ dimension: 2, position: [-2, 0, 3] }),
     ];
 
@@ -50,8 +44,8 @@ export class Game extends BaseRenderEngine {
       width: this.width,
       height: this.height,
       focalDistance: 1,
-      position: [0, 0, 0],
-      localCoordinateSystem: COORDINATE_SYSTEMS.cartesian,
+      position: [0, 0, -1],
+      localCoordinateSystem: CARTESIAN,
     });
 
     if (sliderInput) {

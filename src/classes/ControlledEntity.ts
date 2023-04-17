@@ -4,15 +4,13 @@ import { scale } from "./vector";
 enum TranslationDirections {
   Forward = "w",
   Backward = "s",
-  Left = "a",
-  Right = "d",
+  Left = "q",
+  Right = "e",
 }
 
 enum RotationDirections {
-  Left = "ArrowLeft",
-  Right = "ArrowRight",
-  Up = "ArrowUp",
-  Down = "ArrowDown",
+  Left = "a",
+  Right = "d",
 }
 
 /** Class responsible for controlling entities via user input */
