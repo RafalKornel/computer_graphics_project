@@ -7,6 +7,8 @@ type BaseRendererParams = {
 };
 
 export abstract class BaseRenderEngine {
+  protected readonly _bufferWidth = 4;
+
   private ctx: CanvasRenderingContext2D;
 
   private raf: number | undefined;
@@ -48,7 +50,9 @@ export abstract class BaseRenderEngine {
 
     this.ctx = ctx;
 
-    this.buffer = new Uint8ClampedArray(this.width * this.height * 4);
+    this.buffer = new Uint8ClampedArray(
+      this.width * this.height * this._bufferWidth
+    );
 
     if (controlButton) {
       this.registerControlButton(controlButton);

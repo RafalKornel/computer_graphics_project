@@ -8,6 +8,12 @@ const DEG_45 = Math.PI / 4;
 
 const CARTESIAN = new CoordinateSystem([1, 0, 0], [0, 1, 0], [0, 0, 1]);
 
+const rotated = new CoordinateSystem(
+  [-Math.sin(DEG_45), 0, Math.cos(DEG_45)],
+  [Math.cos(DEG_45), 0, Math.sin(DEG_45)],
+  [0, 1, 0]
+);
+
 const ROTATE_CUBES = true;
 
 type GameParams = {
@@ -22,13 +28,13 @@ export class Game extends BaseRenderEngine {
 
   constructor({ canvas, controlButton, sliderInput }: GameParams) {
     super(canvas, controlButton, {
-      height: 800,
-      width: 800,
-      logFramerate: true,
+      height: 600,
+      width: 600,
+      logFramerate: false,
     });
 
     const cubes = [
-      new Cube({ dimension: 1, color: [255, 0, 0], position: [2, 0.5, 2] }),
+      new Cube({ dimension: 1, color: [255, 0, 0], position: [2, 0.6, 2] }),
       new Cube({ dimension: 1, color: [0, 255, 0], position: [2, 0.5, 4] }),
       new Cube({ dimension: 2, color: [0, 0, 255], position: [-2, 0, 3] }),
     ];
@@ -41,6 +47,7 @@ export class Game extends BaseRenderEngine {
 
     this._camera = new Camera({
       buffer: this.buffer,
+      bufferWidth: this._bufferWidth,
       width: this.width,
       height: this.height,
       focalDistance: 1,
@@ -57,6 +64,7 @@ export class Game extends BaseRenderEngine {
     if (ROTATE_CUBES) {
       this._scene.objects.forEach((object) => {
         object.rotateY(DEG_45 / 100);
+        // object.move([0, -0.01, 0]);
       });
     }
 

@@ -1,4 +1,5 @@
 import { Color, TriangleIndices, Vec3 } from "../types";
+import { CoordinateSystem } from "./CoordinateSystem";
 import { Entity } from "./Entity";
 import { Mesh } from "./Mesh";
 
@@ -35,7 +36,7 @@ export class Cube extends Entity {
       [0, 3, 2],
       [0, 2, 1],
 
-      // // Right
+      // Right
       [6, 1, 2],
       [2, 5, 6],
 
