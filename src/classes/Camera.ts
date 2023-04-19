@@ -1,8 +1,10 @@
 import { Color, Vec2, Vec3 } from "../types";
 import { ControlledEntity } from "./ControlledEntity";
 import { EntityParams } from "./Entity";
+import { Matrix } from "./Matrix";
 import { Mesh } from "./Mesh";
 import { Scene } from "./Scene";
+import { dist } from "./vector";
 
 type CameraParams = {
   buffer: Uint8ClampedArray;
@@ -40,7 +42,7 @@ export class Camera extends ControlledEntity {
     super({ localCoordinateSystem, position });
 
     this._buffer = buffer;
-    this._zBuffer = new Uint8ClampedArray(width * height);
+    // this._zBuffer = new Uint8ClampedArray(width * height);
     this._bufferWidth = bufferWidth;
 
     this._width = width;
@@ -57,7 +59,14 @@ export class Camera extends ControlledEntity {
       this._buffer[i] = 0;
     }
 
-    scene.objects.forEach((obj) => {
+    const sortedObjects = [...scene.objects].sort((objA, objB) => {
+      const distToA = dist(this.position, objA.position);
+      const distToB = dist(this.position, objB.position);
+
+      return distToB - distToA;
+    });
+
+    sortedObjects.forEach((obj) => {
       if (!obj.mesh) return;
 
       const rastrizedVertices = obj.mesh.vertices.map((vertex) => {
@@ -92,9 +101,9 @@ export class Camera extends ControlledEntity {
 
           if (!current || !next) return;
 
-          const color = obj.mesh!.color.map((v) => (v !== 0 ? v + 50 : v));
+          // const color = obj.mesh!.color.map((v) => (v !== 0 ? v + 50 : v));
 
-          this.drawLine(current, next, color as Color);
+          // this.drawLine(current, next, color as Color);
 
           this.fillTriangle(obj.mesh!, idx);
         });
@@ -161,7 +170,7 @@ export class Camera extends ControlledEntity {
       const [r, g, b] = mesh.color!;
 
       for (let x = x_start; x < x_end; x++) {
-        this.setPixel([x, y], [r / 2, g / 2, b / 2]);
+        this.setPixel([x, y], [r, g, b]);
       }
     }
   }

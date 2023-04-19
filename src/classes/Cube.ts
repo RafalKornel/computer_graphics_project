@@ -34,27 +34,27 @@ export class Cube extends Entity {
     const meshVertexIndices: TriangleIndices[] = [
       // Back
       [0, 3, 2],
-      [0, 2, 1],
+      [2, 1, 0],
 
       // Right
-      [6, 1, 2],
       [2, 5, 6],
+      [6, 1, 2],
 
       // // Front
-      [7, 5, 6],
-      [7, 5, 4],
+      [7, 6, 5],
+      [5, 4, 7],
 
       // // Left
-      [7, 4, 3],
-      [7, 3, 0],
+      [0, 7, 4],
+      [3, 0, 4],
 
       // // Top
+      [2, 3, 4],
       [4, 5, 2],
-      [4, 2, 3],
 
       // // Bottom
-      [7, 0, 1],
-      [7, 1, 6],
+      [0, 6, 7],
+      [0, 1, 6],
     ];
 
     const mesh = new Mesh(vertices, meshVertexIndices, color);
