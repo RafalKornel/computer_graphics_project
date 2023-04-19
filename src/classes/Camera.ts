@@ -1,4 +1,4 @@
-import { Vec2, Vec3 } from "../types";
+import { Color, Vec2, Vec3 } from "../types";
 import { ControlledEntity } from "./ControlledEntity";
 import { EntityParams } from "./Entity";
 import { Scene } from "./Scene";
@@ -54,7 +54,7 @@ export class Camera extends ControlledEntity {
     scene.objects.forEach((obj) => {
       if (!obj.mesh) return;
 
-      const rastrizedVertices = obj.mesh?.vertices.map((vertex) => {
+      const rastrizedVertices = obj.mesh.vertices.map((vertex) => {
         const vertexInWorld = obj.transformVecToWorldSystem(vertex);
 
         const vertexInCamera = this.transformVecToLocalSystem(vertexInWorld);
@@ -69,7 +69,7 @@ export class Camera extends ControlledEntity {
 
         const rastrizedVertex = this.rastrize(vertexInPlane);
 
-        this.setPixel(rastrizedVertex);
+        this.setPixel(rastrizedVertex, obj.mesh!.color);
 
         return rastrizedVertex;
       });
@@ -84,7 +84,7 @@ export class Camera extends ControlledEntity {
 
           if (!current || !next) return;
 
-          this.drawLine(current, next);
+          this.drawLine(current, next, obj.mesh!.color);
         });
       });
     });
@@ -112,17 +112,21 @@ export class Camera extends ControlledEntity {
 
   /** Passing array as argument of a function that is invoked frequently is inefficient,
    * but easier to read */
-  private setPixel([x, y]: Vec2) {
+  private setPixel([x, y]: Vec2, color: Color) {
     const row = y * this._width * 4;
     const pos = row + x * 4;
 
     if (y >= this._height || x >= this._width || x < 0 || y < 0) return;
 
-    this._buffer[pos + 0] = 255;
+    const [r, g, b] = color;
+
+    this._buffer[pos + 0] = r;
+    this._buffer[pos + 1] = g;
+    this._buffer[pos + 2] = b;
     this._buffer[pos + 3] = 255;
   }
 
-  private drawVerticalLine([x1, y1]: Vec2, [, y2]: Vec2) {
+  private drawVerticalLine([x1, y1]: Vec2, [, y2]: Vec2, color: Color) {
     const dy = y2 - y1;
 
     const y_start = dy > 0 ? y1 : y2;
@@ -131,18 +135,18 @@ export class Camera extends ControlledEntity {
     let y = y_start;
 
     while (y < y_end) {
-      this.setPixel([x1, y]);
+      this.setPixel([x1, y], color);
       y += 1;
     }
 
     return;
   }
 
-  private drawLine([x1, y1]: Vec2, [x2, y2]: Vec2) {
+  private drawLine([x1, y1]: Vec2, [x2, y2]: Vec2, color: Color) {
     const dx = x2 - x1;
 
     if (dx == 0) {
-      this.drawVerticalLine([x1, y1], [x2, y2]);
+      this.drawVerticalLine([x1, y1], [x2, y2], color);
       return;
     }
 
@@ -158,7 +162,7 @@ export class Camera extends ControlledEntity {
     let y = y_start;
 
     for (let x = x_start; x <= x_end; x++) {
-      this.setPixel([x, Math.round(y)]);
+      this.setPixel([x, Math.round(y)], color);
       y = y + m;
     }
   }

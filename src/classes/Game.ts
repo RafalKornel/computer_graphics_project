@@ -8,7 +8,7 @@ const DEG_45 = Math.PI / 4;
 
 const CARTESIAN = new CoordinateSystem([1, 0, 0], [0, 1, 0], [0, 0, 1]);
 
-const ROTATE_CUBES = false;
+const ROTATE_CUBES = true;
 
 type GameParams = {
   canvas: HTMLCanvasElement;
@@ -28,9 +28,9 @@ export class Game extends BaseRenderEngine {
     });
 
     const cubes = [
-      new Cube({ dimension: 1, position: [2, 0.5, 2] }),
-      new Cube({ dimension: 1, position: [2, 0.5, 4] }),
-      new Cube({ dimension: 2, position: [-2, 0, 3] }),
+      new Cube({ dimension: 1, color: [255, 0, 0], position: [2, 0.5, 2] }),
+      new Cube({ dimension: 1, color: [0, 255, 0], position: [2, 0.5, 4] }),
+      new Cube({ dimension: 2, color: [0, 0, 255], position: [-2, 0, 3] }),
     ];
 
     const scene = new Scene();

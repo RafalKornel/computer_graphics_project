@@ -1,14 +1,15 @@
-import { TriangleIndices, Vec3 } from "../types";
+import { Color, TriangleIndices, Vec3 } from "../types";
 import { Entity } from "./Entity";
 import { Mesh } from "./Mesh";
 
 type CubeParams = {
   dimension: number;
   position?: Vec3;
+  color: Color;
 };
 
 export class Cube extends Entity {
-  constructor({ dimension, position = [0, 0, 0] }: CubeParams) {
+  constructor({ dimension, color, position = [0, 0, 0] }: CubeParams) {
     const x_min = -dimension / 2;
     const x_plus = +dimension / 2;
 
@@ -55,7 +56,7 @@ export class Cube extends Entity {
       [7, 1, 6],
     ];
 
-    const mesh = new Mesh(vertices, meshVertexIndices);
+    const mesh = new Mesh(vertices, meshVertexIndices, color);
 
     super({ mesh, position });
   }
