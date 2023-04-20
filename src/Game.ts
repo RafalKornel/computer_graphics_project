@@ -8,7 +8,7 @@ const DEG_45 = Math.PI / 4;
 
 const CARTESIAN = new CoordinateSystem([1, 0, 0], [0, 1, 0], [0, 0, 1]);
 
-const ROTATE_CUBES = true;
+let ROTATE_CUBES = true;
 
 type GameParams = {
   canvas: HTMLCanvasElement;
@@ -23,13 +23,13 @@ export class Game extends RenderEngine {
 
   constructor({
     canvas,
-    controlButton,
     sliderInput,
     painterAlgCheckbox,
+    controlButton,
   }: GameParams) {
-    super(canvas, controlButton, {
-      height: 800,
-      width: 800,
+    super(canvas, {
+      height: 860,
+      width: 860,
       logFramerate: false,
     });
 
@@ -62,6 +62,10 @@ export class Game extends RenderEngine {
     if (painterAlgCheckbox) {
       this.registerPainterAlgCheckbox(painterAlgCheckbox);
     }
+
+    if (controlButton) {
+      this.registerRotationControlButton(controlButton);
+    }
   }
 
   loop() {
@@ -87,6 +91,20 @@ export class Game extends RenderEngine {
   private registerPainterAlgCheckbox(checkbox: HTMLInputElement) {
     checkbox.addEventListener("change", () => {
       this._camera.togglePainterAlgorithm();
+    });
+  }
+
+  private registerRotationControlButton(button: HTMLButtonElement) {
+    button.innerText = "pause rotation";
+
+    button.addEventListener("click", () => {
+      if (ROTATE_CUBES) {
+        button.innerHTML = "start rotation";
+      } else {
+        button.innerHTML = "pause rotation";
+      }
+
+      ROTATE_CUBES = !ROTATE_CUBES;
     });
   }
 }

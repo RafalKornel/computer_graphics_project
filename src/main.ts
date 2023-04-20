@@ -17,6 +17,14 @@ const legendTemplate = `
   </div>
 
   <div>
+    <h3>Screw rotation</h3>
+    <ul>
+      <li>Clockwise: <strong>e</strong></li>
+      <li>Counter clockwise: <strong>q</strong></li>
+    </ul>
+  </div>
+
+  <div>
     <h3>Vertical rotation</h3>
     <ul>
       <li>Up: <strong>↑</strong></li>
@@ -32,13 +40,7 @@ const legendTemplate = `
     </ul>
   </div>
 
-  <div>
-    <h3>Screw rotation</h3>
-    <ul>
-      <li>Clockwise: <strong>e</strong></li>
-      <li>Counter clockwise: <strong>q</strong></li>
-    </ul>
-  </div>
+
 </div>
 `;
 
@@ -59,12 +61,8 @@ const controlsTemplate = `
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     ${controlsTemplate}
-    <div>
 
-
-      <canvas></canvas>
-
-    </div>
+    <canvas></canvas>
 `;
 
 const sliderInput = registerSlider(document.querySelector("#slider-wrapper")!);

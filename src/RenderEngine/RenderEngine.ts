@@ -4,6 +4,7 @@ type RenderEngineParams = {
   logFramerate?: boolean;
   width?: number;
   height?: number;
+  controlButton?: HTMLButtonElement;
 };
 
 export abstract class RenderEngine {
@@ -25,12 +26,13 @@ export abstract class RenderEngine {
    */
   abstract loop(): void;
 
-  constructor(
-    canvas: HTMLCanvasElement,
-    controlButton?: HTMLButtonElement,
-    options: RenderEngineParams = {}
-  ) {
-    const { height = 640, width = 640, logFramerate = false } = options;
+  constructor(canvas: HTMLCanvasElement, options: RenderEngineParams = {}) {
+    const {
+      height = 640,
+      width = 640,
+      logFramerate = false,
+      controlButton,
+    } = options;
 
     if (logFramerate) {
       this.framerateCounter = new FramerateCounter();
