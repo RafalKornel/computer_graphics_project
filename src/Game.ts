@@ -22,15 +22,15 @@ export class Game extends RenderEngine {
 
   constructor({ canvas, controlButton, sliderInput }: GameParams) {
     super(canvas, controlButton, {
-      height: 600,
-      width: 600,
+      height: 900,
+      width: 900,
       logFramerate: false,
     });
 
     const cubes = [
-      new Cube({ dimension: 1, color: [255, 0, 0], position: [2, 0.6, 2] }),
-      new Cube({ dimension: 1, color: [0, 255, 0], position: [2, 0.5, 4] }),
-      new Cube({ dimension: 2, color: [0, 0, 255], position: [-2, 0, 3] }),
+      new Cube({ dimension: 1, color: [200, 0, 0], position: [2, 0.6, 2] }),
+      new Cube({ dimension: 1, color: [0, 200, 0], position: [2, 0.5, 4] }),
+      new Cube({ dimension: 2, color: [0, 0, 200], position: [-2, 0, 3] }),
     ];
 
     const scene = new Scene();
@@ -56,9 +56,10 @@ export class Game extends RenderEngine {
 
   loop() {
     if (ROTATE_CUBES) {
-      this._scene.objects.forEach((object) => {
-        object.rotateY(DEG_45 / 100);
-        // object.move([0, -0.01, 0]);
+      this._scene.objects.forEach((object, i) => {
+        const axis = (["x", "y", "z"] as const)[i & 3];
+
+        object.rotate(axis, DEG_45 / 100);
       });
     }
 

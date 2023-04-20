@@ -2,6 +2,7 @@ import { Matrix } from "../Matrix";
 import { Vec3 } from "../types";
 import { CoordinateSystem } from "../Scene/CoordinateSystem";
 import { Mesh } from "../Scene/Mesh";
+import { ROTATION_MATRIX } from "../utils/rotations";
 
 export type EntityParams = {
   position?: Vec3;
@@ -68,15 +69,11 @@ export class Entity {
     this.recalculateToWorldTransformMatrix();
   }
 
-  public rotateY(angle: number) {
-    const y_matrix = new Matrix([
-      [Math.cos(angle), 0, Math.sin(angle)],
-      [0, 1, 0],
-      [-Math.sin(angle), 0, Math.cos(angle)],
-    ]);
+  public rotate(axis: "x" | "y" | "z", angle: number) {
+    const rotationMatrix = ROTATION_MATRIX[axis](angle);
 
     this._localCoordinateSystem = CoordinateSystem.fromMatrix(
-      y_matrix.multiplyMatrix(this._localCoordinateSystem.matrix)
+      rotationMatrix.multiplyMatrix(this._localCoordinateSystem.matrix)
     );
 
     this.recalculateToWorldTransformMatrix();

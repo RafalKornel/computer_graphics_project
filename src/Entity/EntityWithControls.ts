@@ -4,13 +4,17 @@ import { Entity, EntityParams } from "./Entity";
 enum TranslationDirections {
   Forward = "w",
   Backward = "s",
-  Left = "q",
-  Right = "e",
+  Left = "a",
+  Right = "d",
 }
 
 enum RotationDirections {
-  Left = "a",
-  Right = "d",
+  Left = "ArrowLeft",
+  Right = "ArrowRight",
+  Up = "ArrowUp",
+  Down = "ArrowDown",
+  Clockwise = "e",
+  AntiClockwise = "q",
 }
 
 /** Class responsible for controlling entities via user input */
@@ -27,6 +31,8 @@ export class EntityWithControls extends Entity {
     document.addEventListener("keydown", (e) => {
       this.handleTranslation(e.key);
       this.handleHorizontalRotation(e.key);
+      this.handleVerticalRotation(e.key);
+      this.handleClockRotation(e.key);
     });
   }
 
@@ -53,11 +59,31 @@ export class EntityWithControls extends Entity {
 
   private handleHorizontalRotation(key: string) {
     if (key === RotationDirections.Left) {
-      this.rotateY(this.ROTATION_INTERVAL);
+      this.rotate("y", this.ROTATION_INTERVAL);
     }
 
     if (key === RotationDirections.Right) {
-      this.rotateY(-this.ROTATION_INTERVAL);
+      this.rotate("y", -this.ROTATION_INTERVAL);
+    }
+  }
+
+  private handleVerticalRotation(key: string) {
+    if (key === RotationDirections.Up) {
+      this.rotate("x", -this.ROTATION_INTERVAL);
+    }
+
+    if (key === RotationDirections.Down) {
+      this.rotate("x", this.ROTATION_INTERVAL);
+    }
+  }
+
+  private handleClockRotation(key: string) {
+    if (key === RotationDirections.Clockwise) {
+      this.rotate("z", -this.ROTATION_INTERVAL);
+    }
+
+    if (key === RotationDirections.AntiClockwise) {
+      this.rotate("z", this.ROTATION_INTERVAL);
     }
   }
 }
