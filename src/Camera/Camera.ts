@@ -2,7 +2,7 @@ import { Color, Vec2, Vec3 } from "../types";
 
 import { dist } from "../utils/vector";
 import { interpolate } from "../utils/calculations";
-import { EntityParams } from "../Entity";
+import { Entity, EntityParams } from "../Entity";
 import { EntityWithControls } from "../Entity";
 import { Mesh } from "../Scene/Mesh";
 import { Scene } from "../Scene/Scene";
@@ -29,6 +29,8 @@ export class Camera extends EntityWithControls {
   private _coneLowerDist: number;
   private _coneUpperDist: number;
 
+  private _withPainterAlgorithm: boolean;
+
   constructor({
     buffer,
     bufferWidth,
@@ -52,6 +54,16 @@ export class Camera extends EntityWithControls {
     this._focalDistance = focalDistance;
     this._coneLowerDist = coneLowerDist;
     this._coneUpperDist = coneUpperDist;
+
+    this._withPainterAlgorithm = true;
+  }
+
+  public changeFocalDistance(d: number) {
+    this._focalDistance = d;
+  }
+
+  public togglePainterAlgorithm() {
+    this._withPainterAlgorithm = !this._withPainterAlgorithm;
   }
 
   public renderScene(scene: Scene) {
@@ -59,13 +71,9 @@ export class Camera extends EntityWithControls {
       this._buffer[i] = 0;
     }
 
-    /** Painter's algoritm */
-    const sortedObjects = [...scene.objects].sort((objA, objB) => {
-      const distToA = dist(this.position, objA.position);
-      const distToB = dist(this.position, objB.position);
-
-      return distToB - distToA;
-    });
+    const sortedObjects = this._withPainterAlgorithm
+      ? this.painterAlgorithmSort(scene.objects)
+      : scene.objects;
 
     sortedObjects.forEach((obj) => {
       if (!obj.mesh) return;
@@ -164,8 +172,13 @@ export class Camera extends EntityWithControls {
     }
   }
 
-  public changeFocalDistance(d: number) {
-    this._focalDistance = d;
+  private painterAlgorithmSort(objects: Entity[]): Entity[] {
+    return [...objects].sort((objA, objB) => {
+      const distToA = dist(this.position, objA.position);
+      const distToB = dist(this.position, objB.position);
+
+      return distToB - distToA;
+    });
   }
 
   private transformCameraToPlaneCoors([x, y, z]: Vec3): Vec2 {

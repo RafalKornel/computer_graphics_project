@@ -14,6 +14,41 @@
   -webkit-text-size-adjust: 100%;
 }
 
+.legend {
+  width: 100%;
+  display: flex;
+  text-align: left;
+
+  gap: 1.5rem;
+
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.legend ul {
+  margin: 0;
+  list-style: none;
+  padding-left: 0;
+}
+
+.legend h3 {
+  margin: 0;
+}
+
+.controls h2 {
+  margin: 0;
+  padding: 0;
+}
+
+.controls {
+  display: flex;
+
+  text-align: left;
+
+  flex-direction: column;
+  gap: 20px;
+}
+
 canvas {
   background-color: #000;
 }
@@ -44,8 +79,8 @@ h1 {
 
 #app {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  /* flex-direction: column; */
+  gap: 20px;
 
   max-width: 1280px;
   margin: 0 auto;
