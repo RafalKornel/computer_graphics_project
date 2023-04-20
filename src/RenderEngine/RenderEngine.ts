@@ -1,12 +1,12 @@
 import { FramerateCounter } from "./FramerateCounter";
 
-type BaseRendererParams = {
+type RenderEngineParams = {
   logFramerate?: boolean;
   width?: number;
   height?: number;
 };
 
-export abstract class BaseRenderEngine {
+export abstract class RenderEngine {
   protected readonly _bufferWidth = 4;
 
   private ctx: CanvasRenderingContext2D;
@@ -28,7 +28,7 @@ export abstract class BaseRenderEngine {
   constructor(
     canvas: HTMLCanvasElement,
     controlButton?: HTMLButtonElement,
-    options: BaseRendererParams = {}
+    options: RenderEngineParams = {}
   ) {
     const { height = 640, width = 640, logFramerate = false } = options;
 

@@ -1,18 +1,12 @@
-import { BaseRenderEngine } from "./BaseRenderer";
+import { RenderEngine } from "./RenderEngine/RenderEngine";
+import { CoordinateSystem } from "./Scene/CoordinateSystem";
+import { Cube } from "./Scene/Cube";
+import { Scene } from "./Scene/Scene";
 import { Camera } from "./Camera";
-import { CoordinateSystem } from "./CoordinateSystem";
-import { Cube } from "./Cube";
-import { Scene } from "./Scene";
 
 const DEG_45 = Math.PI / 4;
 
 const CARTESIAN = new CoordinateSystem([1, 0, 0], [0, 1, 0], [0, 0, 1]);
-
-const rotated = new CoordinateSystem(
-  [-Math.sin(DEG_45), 0, Math.cos(DEG_45)],
-  [Math.cos(DEG_45), 0, Math.sin(DEG_45)],
-  [0, 1, 0]
-);
 
 const ROTATE_CUBES = true;
 
@@ -22,7 +16,7 @@ type GameParams = {
   sliderInput?: HTMLInputElement;
 };
 
-export class Game extends BaseRenderEngine {
+export class Game extends RenderEngine {
   private _scene: Scene;
   private _camera: Camera;
 

@@ -1,6 +1,5 @@
 import { CoordinateSystem } from "./CoordinateSystem";
-import { Entity } from "./Entity";
-import { Mesh } from "./Mesh";
+import { Entity } from "../Entity";
 
 export class Scene {
   public objects: Entity[];
@@ -22,17 +21,5 @@ export class Scene {
 
   public addObjects(objects: Entity[]) {
     objects.forEach((object) => this.addObject(object));
-  }
-
-  public transformMeshVerciesToWorldCoords(obj: Entity) {
-    if (!obj.mesh) return undefined;
-
-    const mappedVertices = obj.mesh.vertices.map((v) =>
-      obj.transformVecToWorldSystem(v)
-    );
-
-    const mappedMesh = new Mesh(mappedVertices, obj.mesh.triangleIndices);
-
-    return mappedMesh;
   }
 }

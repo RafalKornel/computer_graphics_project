@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Vec3 } from "../types";
-import { CoordinateSystem } from "./CoordinateSystem";
+import { CoordinateSystem } from "../Scene/CoordinateSystem";
 import { Entity } from "./Entity";
 
 describe("Entity", () => {

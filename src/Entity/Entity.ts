@@ -1,7 +1,7 @@
+import { Matrix } from "../Matrix";
 import { Vec3 } from "../types";
-import { CoordinateSystem } from "./CoordinateSystem";
-import { Matrix } from "./Matrix";
-import { Mesh } from "./Mesh";
+import { CoordinateSystem } from "../Scene/CoordinateSystem";
+import { Mesh } from "../Scene/Mesh";
 
 export type EntityParams = {
   position?: Vec3;

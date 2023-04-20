@@ -1,6 +1,5 @@
 import { Color, TriangleIndices, Vec3 } from "../types";
-import { CoordinateSystem } from "./CoordinateSystem";
-import { Entity } from "./Entity";
+import { Entity } from "../Entity";
 import { Mesh } from "./Mesh";
 
 type CubeParams = {

@@ -1,5 +1,5 @@
+import { scale } from "../utils/vector";
 import { Entity, EntityParams } from "./Entity";
-import { scale } from "./vector";
 
 enum TranslationDirections {
   Forward = "w",
@@ -14,7 +14,7 @@ enum RotationDirections {
 }
 
 /** Class responsible for controlling entities via user input */
-export class ControlledEntity extends Entity {
+export class EntityWithControls extends Entity {
   private TRANSLATION_INTERVAL = 0.1;
   private ROTATION_INTERVAL = 0.1;
 

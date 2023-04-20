@@ -1,5 +1,5 @@
 import "./style.css";
-import { Game } from "./classes/Game";
+import { Game } from "./Game";
 import { registerSlider } from "./registerSlider";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
