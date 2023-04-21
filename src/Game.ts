@@ -8,7 +8,7 @@ const DEG_45 = Math.PI / 4;
 
 const CARTESIAN = new CoordinateSystem([1, 0, 0], [0, 1, 0], [0, 0, 1]);
 
-let ROTATE_CUBES = true;
+let ROTATE_CUBES = false;
 
 type GameParams = {
   canvas: HTMLCanvasElement;
@@ -95,7 +95,7 @@ export class Game extends RenderEngine {
   }
 
   private registerRotationControlButton(button: HTMLButtonElement) {
-    button.innerText = "pause rotation";
+    button.innerText = "start rotation";
 
     button.addEventListener("click", () => {
       if (ROTATE_CUBES) {
